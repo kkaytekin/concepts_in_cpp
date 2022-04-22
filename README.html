@@ -16,7 +16,7 @@
 <h1 id="ciip-c-course">CIIP C++ Course</h1>
 <p>Welcome to the CIIP course <strong>Concepts of C++ programming</strong>!</p>
 <p>You will use this <a href="https://git-scm.org"><code>git</code></a> repository for solving and submitting homeworks.</p>
-<h2 id="overview">Overview</h2>
+<p>&lt;%text&gt; ## Overview &lt;/%text&gt;</p>
 <p>Your personal “fork” of the <a href="$%7Bcfg.url_term_task_repo%7D">base repo</a> (<code>your-username_tasks</code>) contains all the code.</p>
 <p>You will <a href="https://git-scm.com/docs/git-pull">pull</a> new assignments from the base repo (<code>upstream</code>) and <a href="https://git-scm.com/docs/git-push">push</a> your changes to your repo (<code>origin</code>) to submit. In other words, you “download” the new assignment from the base repo to your computer and then “upload” your solution to your GitLab repo.</p>
 <p><strong>Getting and Submitting new Homeworks</strong> We will publish new homeworks (and bugfixes :) <a href="$%7Bcfg.url_term_task_repo%7D"><strong>in the base repo</strong></a>, which you then merge into <a href="$%7Bcfg.url_term_base%7D"><strong>your repo</strong></a> (<code>your-username_tasks</code>). If everything is setup correctly it is as simple as (<em>pseudo code!</em>):</p>
@@ -26,12 +26,10 @@ $ git add .  # add the changes you want to commit
 $ git commit -m &quot;submission&quot;  # create the commit
 $ git push origin  # push the changes to your Gitlab repository</code></pre>
 <p>Pushing the changes will trigger the build server, compile your code and run the unit tests (<a href="https://en.wikipedia.org/wiki/Continuous_integration#Workflows">CI</a>). At the end of each assignment period we will collect the submissions, test them and notify you in an <a href="https://docs.gitlab.com/ee/user/project/issues/">issue</a> if your submission passed or not.</p>
-<h2 id="setup">Setup</h2>
-<p>This section explains how you set everything up on your machine. If you have any questions, post it on <a href="https://zulip.in.tum.de/">Zulip</a> so that we can help you and other students can refer to it.</p>
+<p>&lt;%text&gt; ## Setup &lt;/%text&gt; This section explains how you set everything up on your machine. If you have any questions, post it on <a href="https://zulip.in.tum.de/">Zulip</a> so that we can help you and other students can refer to it.</p>
 <p><strong>Table of Contents</strong></p>
 <p>[[<em>TOC</em>]]</p>
-<h3 id="ssh-key">SSH-Key</h3>
-<p>Instead of always typing your username and password when communicating with Gitlab using git we recommend to set up an SSH key.</p>
+<p>&lt;%text&gt; ### SSH-Key &lt;/%text&gt; Instead of always typing your username and password when communicating with Gitlab using git we recommend to set up an SSH key.</p>
 <ol type="1">
 <li><a href="https://docs.gitlab.com/ee/user/ssh.html#generate-an-ssh-key-pair">Generate an SSH key pair</a></li>
 <li><a href="https://docs.gitlab.com/ee/user/ssh.html#add-an-ssh-key-to-your-gitlab-account">Add an SSH key to your GitLab account</a></li>
@@ -41,15 +39,9 @@ $ git push origin  # push the changes to your Gitlab repository</code></pre>
  IdentityFile ~/.ssh/#your-private-key-file#</code></pre>
 <p>This tells the SSH-Agent to use this private key for the gitlab.lrz.de server.</p></li>
 </ol>
-<h3 id="git">Git</h3>
-<p>You’ll need git in order to interact with your repository. <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">This tutorial</a>, will show you the installation process for most operating systems.</p>
-<h3 id="downloading-your-repository-clone">Downloading your Repository (Clone)</h3>
-<ul>
-<li>On Gitlab you get your remote link by clicking on <code>Clone</code> on the main page of your repository.</li>
-<li>Choose the link under <em>Clone with SSH</em>.</li>
-<li>Navigate to the directory where you want to download your project and use <code>git clone &lt;your-link</code>, i.e use <code>git clone git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git</code> (or <code>git clone https://gitlab.lrz.de/cppcourse/ss2022/your-username_tasks.git</code> if you’re using HTTPS).</li>
-</ul>
-<h3 id="add-the-base-task-repo-upstream-to-get-the">Add the base task repo (upstream) to get the</h3>
+<p>&lt;%text&gt; ### Git &lt;/%text&gt; You’ll need git in order to interact with your repository. <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">This tutorial</a>, will show you the installation process for most operating systems.</p>
+<p>&lt;%text&gt; ### Downloading your Repository (Clone) - On Gitlab you get your remote link by clicking on <code>Clone</code> on the main page of your repository. - Choose the link under <em>Clone with SSH</em>. - Navigate to the directory where you want to download your project and use <code>git clone &lt;your-link</code>, i.e use <code>git clone git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git</code> (or <code>git clone https://gitlab.lrz.de/cppcourse/ss2022/your-username_tasks.git</code> if you’re using HTTPS).</p>
+<p>&lt;%text&gt; ### Add the base task repo (upstream) to get the &lt;/%text&gt;</p>
 <p>In order to regularly pull the new assignments and any other changes (bugfixes), you must add the original <a href="$%7Bcfg.url_term_task_repo%7D">base repo</a> as <code>upstream</code> remote.</p>
 <p>To do this, navigate to your cloned project’s directory and use the following commands from the console:</p>
 <p>First check the original setup with:</p>
@@ -66,20 +58,17 @@ $ git push origin  # push the changes to your Gitlab repository</code></pre>
 &gt; upstream  git@gitlab.lrz.de:cppcourse/ss2022/tasks.git (fetch)
 &gt; upstream  git@gitlab.lrz.de:cppcourse/ss2022/tasks.git (push)</code></pre>
 <p>If there are changes / new assignments you can pull them with <code>git pull upstream</code>.</p>
-<h3 id="get-the-new-assignment">Get the new assignment</h3>
+<p>&lt;%text&gt; ### Get the new assignment &lt;/%text&gt;</p>
 <p>If you want to get the new assignments or other changes, go to your project directory and use:</p>
 <pre class="console"><code>$ git pull upstream master
 $ git checkout master
 $ git merge upstream/master</code></pre>
 <p>This first pulls the information from the base project, where we publish the homeworks to, and into <code>upstream/master</code> Then, it switches (<code>checkout</code>) to the <code>master</code> branch (if you know you’re on the master branch, you can omit this step). Finally, it merges the current master with <code>upstream/master</code>. For new assignments, we always use new files, so this should work without any merge conflicts.</p>
 <p>However, if both of us changed the same file, a merge conflict might happen if the changes aren’t compatible, in which case you need to resolve the conflict before you can start working.</p>
-<h3 id="build-system-cmake">Build system (CMake)</h3>
-<p>We use the <a href="https://cmake.org/">CMake</a> build system. It takes care of building/compiling everything in the right order and hooking everything up, rather than forcing us to manually manage (and possibly forget) some elements or links. Follow <a href="https://cmake.org/install/">this tutorial</a> to install CMake.</p>
-<h3 id="compiler">Compiler</h3>
+<p>&lt;%text&gt; ### Build system (CMake) &lt;/%text&gt; We use the <a href="https://cmake.org/">CMake</a> build system. It takes care of building/compiling everything in the right order and hooking everything up, rather than forcing us to manually manage (and possibly forget) some elements or links. Follow <a href="https://cmake.org/install/">this tutorial</a> to install CMake.</p>
+<p>&lt;%text&gt; ### Compiler &lt;/%text&gt;</p>
 <p>As we’ll be covering modern C++ (C++20) you need a recent compiler, otherwhise your project will not compile. Possible compilers are - GCC 10 and higher - Clang 10 and higher - Visual Studio 2019 16.10.0 and higher</p>
-<p>We will be testing with GCC and Clang on Linux. It therefore could be possible that you encounter errors with other versions.</p>
-<h3 id="ide">IDE</h3>
-<p>You can use any text editor you are comfortable with (we use Emacs). We recommend <a href="https://www.jetbrains.com/community/education/#students">CLion</a> or <a href="https://code.visualstudio.com/">VSCode</a> if you don’t have any preference, yet.</p>
+<p>We will be testing with GCC and Clang on Linux. It therefore could be possible that you encounter errors with other versions. &lt;%text&gt; ### IDE &lt;/%text&gt; You can use any text editor you are comfortable with (we use Emacs). We recommend <a href="https://www.jetbrains.com/community/education/#students">CLion</a> or <a href="https://code.visualstudio.com/">VSCode</a> if you don’t have any preference, yet.</p>
 
 </body>
 </html>
