@@ -1,11 +1,15 @@
-# CIIP C++ Course
+**CIIP C++ Course**
 
 Welcome to the CIIP course **Concepts of C++ programming**!
 
 You will use this [`git`](https://git-scm.org) repository for solving and submitting homeworks.
 
+**Table of Contents**
 
-## Overview
+[[_TOC_]]
+
+
+# Overview
 
 
 Your personal "fork" of the [base repo](https://gitlab.lrz.de/cppcourse/ss2022/tasks) (`your-username_tasks`) contains all the code.
@@ -22,24 +26,20 @@ $ git pull upstream  # get the new homework
 # do the homework
 $ git add .  # add the changes you want to commit
 $ git commit -m "submission"  # create the commit
-$ git push origin  # push the changes to your Gitlab repository
+$ git push origin  # push the changes to your GitLab repository
 ```
 Pushing the changes will trigger the build server, compile your code and run the unit tests ([CI](https://en.wikipedia.org/wiki/Continuous_integration#Workflows)). At the end of each assignment period we will collect the submissions, test them and notify you in an [issue](https://docs.gitlab.com/ee/user/project/issues/) if your submission passed or not.
 
 
-## Setup
+# Setup
 
 This section explains how you set everything up on your machine.
 If you have any questions, post it on [Zulip](https://zulip.in.tum.de/) so that we can help you and other students can refer to it.
 
-**Table of Contents**
 
-[[_TOC_]]
+## SSH-Key
 
-
-### SSH-Key
-
-Instead of always typing your username and password when communicating with Gitlab using git we recommend to set up an SSH key.
+Instead of always typing your username and password when communicating with GitLab using git we recommend to set up an SSH key.
 
 1. [Generate an SSH key pair](https://docs.gitlab.com/ee/user/ssh.html#generate-an-ssh-key-pair)
 2. [Add an SSH key to your GitLab account](https://docs.gitlab.com/ee/user/ssh.html#add-an-ssh-key-to-your-gitlab-account)
@@ -55,20 +55,21 @@ Host gitlab.lrz.de
    This tells the SSH-Agent to use this private key for the gitlab.lrz.de server.
 
 
-### Git
+## Git
 
 You'll need git in order to interact with your repository. [This tutorial](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), 
 will show you the installation process for most operating systems.
 
 
-### Downloading your Repository (Clone)
-- On Gitlab you get your remote link by clicking on `Clone` on the main page of your repository.
+## Downloading your Repository (Clone)
+
+- On GitLab you get your remote link by clicking on `Clone` on the main page of your repository.
 - Choose the link under *Clone with SSH*.
 - Navigate to the directory where you want to download your project and use `git clone <your-link`, i.e
-use `git clone git@gitlab.lrz.de:cppcourse/${cfg.term}/your-username_tasks.git` (or `git clone https://gitlab.lrz.de/cppcourse/${cfg.term}/your-username_tasks.git` if you're using HTTPS).
+use `git clone git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git` (or `git clone https://gitlab.lrz.de/cppcourse/ss2022/your-username_tasks.git` if you're using HTTPS).
 
-<%text>
-### Add the base task repo (upstream) to get the 
+
+## Adding Upstream
 
 
 In order to regularly pull the new assignments and any other changes (bugfixes), you must add the original [base repo](https://gitlab.lrz.de/cppcourse/ss2022/tasks) as `upstream` remote. 
@@ -85,7 +86,7 @@ The output should be:
 > origin  git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git (fetch)
 > origin  git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git (push)
 ```
-which tells us, that remote with the name origin (your Gitlab repo) points to your local repo. To add the [base repo](https://gitlab.lrz.de/cppcourse/ss2022/tasks) use:
+which tells us, that remote with the name origin (your GitLab repo) points to your local repo. To add the [base repo](https://gitlab.lrz.de/cppcourse/ss2022/tasks) use:
 ```console
 $ git remote add upstream git@gitlab.lrz.de:cppcourse/ss2022/tasks.git
 ```
@@ -101,7 +102,7 @@ $ git remote -v
 If there are changes / new assignments you can pull them with `git pull upstream`.
 
 
-### Get the new assignment
+## Get the new assignment
 
 
 If you want to get the new assignments or other changes, go to your project directory and use:
@@ -119,28 +120,28 @@ For new assignments, we always use new files, so this should work without any me
 However, if both of us changed the same file, a merge conflict might happen if the changes aren't compatible, in which case you need to resolve the conflict before you can start working.
 
 
-### Build system (CMake)
+## Build system (CMake)
 
-We use the [CMake](https://cmake.org/) build system.
+For later assignments we use the [CMake](https://cmake.org/) build system.
 It takes care of building/compiling everything in the right order and hooking everything up, rather than forcing us to manually manage (and possibly forget) some elements or links.
 Follow [this tutorial](https://cmake.org/install/) to install CMake.
 
 
-### Compiler
+## Compiler
 
 
 As we'll be covering modern C++ (C++20) you need a recent compiler, otherwhise your project will not compile.
 Possible compilers are
-- GCC 10 and higher
+- GCC 10 and higher (instructions for [Windows](https://nuwen.net/mingw.html))
 - Clang 10 and higher
 - Visual Studio 2019 16.10.0 and higher
 
 We will be testing with GCC and Clang on Linux.
 It therefore could be possible that you encounter errors with other versions.
 
-### IDE
+## IDE
 
-You can use any text editor you are comfortable with (we use Emacs).
+You can use any text editor you are comfortable with (we use [Doom](https://github.com/hlissner/doom-emacs) [Emacs](https://www.gnu.org/software/emacs/), [spacemacs](https://www.spacemacs.org/), and [vim](https://www.vim.org/)).
 We recommend [CLion](https://www.jetbrains.com/community/education/#students) or [VSCode](https://code.visualstudio.com/) if you don't have any preference, yet.
 
 
