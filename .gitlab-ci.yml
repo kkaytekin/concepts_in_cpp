@@ -1,1 +1,48 @@
-# TODO: trigger what's needed to evaluate the homeworks
+variables:
+    CURRENT_LIB: ""
+    CURRENT_TEST: ""
+    TEST_HASH_EXPECTED: ""
+
+before_script:
+    - echo "hash validation here"
+
+stages:
+- compile
+
+.job_template: &build_job_artifact
+  stage: compile
+  cache:
+    key: "$CI_JOB_NAME"
+    paths:
+      - build/
+
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    paths:
+      - build/
+    expire_in: 30 mins
+
+
+build-gcc:
+  <<: *build_job_artifact
+  image: cpp/compiler:20
+  script:
+    - mkdir -p build
+    - g++ -o build/main -std=c++20 HW00/main.cpp
+    #- cd build
+    #- cmake ..
+    #- make $CURRENT_TEST -j4
+  tags:
+    - linux
+
+build-clang:
+  <<: *build_job_artifact
+  image: cpp/compiler:20
+  script:
+    - mkdir -p build
+    - clang++ -stdlib=libc++ -Wl,-lc++abi -o build/main -std=c++20 HW00/main.cpp
+    #- cd build
+    #- cmake .. -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_EXE_LINKER_FLAGS="-lc++abi"
+    #- make $CURRENT_TEST -j4
+  tags:
+    - linux

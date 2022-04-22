@@ -2,7 +2,7 @@
 
 Welcome to the CIIP course **Concepts of C++ programming**!
 
-You will use this [`git`](https://git-scm.org) repository for solving and submitting homeworks.
+You will use this [git](https://git-scm.org) repository for solving and submitting homeworks.
 
 **Table of Contents**
 
@@ -102,7 +102,7 @@ $ git remote -v
 If there are changes / new assignments you can pull them with `git pull upstream`.
 
 
-## Get the new assignment
+## Getting new Assignments
 
 
 If you want to get the new assignments or other changes, go to your project directory and use:
