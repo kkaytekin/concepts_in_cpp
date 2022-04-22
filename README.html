@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h1 id="ciip-c-course">CIIP C++ Course</h1>
+<p>Welcome to the CIIP course <strong>Concepts of C++ programming</strong>!</p>
+<p>You will use this <a href="https://git-scm.org"><code>git</code></a> repository for solving and submitting homeworks.</p>
+<h2 id="overview">Overview</h2>
+<p>Your personal “fork” of the <a href="$%7Bcfg.url_term_task_repo%7D">base repo</a> (<code>your-username_tasks</code>) contains all the code.</p>
+<p>You will <a href="https://git-scm.com/docs/git-pull">pull</a> new assignments from the base repo (<code>upstream</code>) and <a href="https://git-scm.com/docs/git-push">push</a> your changes to your repo (<code>origin</code>) to submit. In other words, you “download” the new assignment from the base repo to your computer and then “upload” your solution to your GitLab repo.</p>
+<p><strong>Getting and Submitting new Homeworks</strong> We will publish new homeworks (and bugfixes :) <a href="$%7Bcfg.url_term_task_repo%7D"><strong>in the base repo</strong></a>, which you then merge into <a href="$%7Bcfg.url_term_base%7D"><strong>your repo</strong></a> (<code>your-username_tasks</code>). If everything is setup correctly it is as simple as (<em>pseudo code!</em>):</p>
+<pre class="console"><code>$ git pull upstream  # get the new homework
+# do the homework
+$ git add .  # add the changes you want to commit
+$ git commit -m &quot;submission&quot;  # create the commit
+$ git push origin  # push the changes to your Gitlab repository</code></pre>
+<p>Pushing the changes will trigger the build server, compile your code and run the unit tests (<a href="https://en.wikipedia.org/wiki/Continuous_integration#Workflows">CI</a>). At the end of each assignment period we will collect the submissions, test them and notify you in an <a href="https://docs.gitlab.com/ee/user/project/issues/">issue</a> if your submission passed or not.</p>
+<h2 id="setup">Setup</h2>
+<p>This section explains how you set everything up on your machine. If you have any questions, post it on <a href="https://zulip.in.tum.de/">Zulip</a> so that we can help you and other students can refer to it.</p>
+<p><strong>Table of Contents</strong></p>
+<p>[[<em>TOC</em>]]</p>
+<h3 id="ssh-key">SSH-Key</h3>
+<p>Instead of always typing your username and password when communicating with Gitlab using git we recommend to set up an SSH key.</p>
+<ol type="1">
+<li><a href="https://docs.gitlab.com/ee/user/ssh.html#generate-an-ssh-key-pair">Generate an SSH key pair</a></li>
+<li><a href="https://docs.gitlab.com/ee/user/ssh.html#add-an-ssh-key-to-your-gitlab-account">Add an SSH key to your GitLab account</a></li>
+<li><p>Add the new key to you SSH config In your home folder (<code>~/</code> on Mac/Linux and <code>C:\Users\You</code> on Windows) you should now see the <code>.ssh</code> (hidden) folder, containing the new SSH-Key (provided you saved the file in the default directory). If not present, create a new file named <code>config</code> (without any suffix) and add the following:</p>
+<pre><code>Host gitlab.lrz.de
+ Preferredauthentications publickey
+ IdentityFile ~/.ssh/#your-private-key-file#</code></pre>
+<p>This tells the SSH-Agent to use this private key for the gitlab.lrz.de server.</p></li>
+</ol>
+<h3 id="git">Git</h3>
+<p>You’ll need git in order to interact with your repository. <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">This tutorial</a>, will show you the installation process for most operating systems.</p>
+<h3 id="downloading-your-repository-clone">Downloading your Repository (Clone)</h3>
+<ul>
+<li>On Gitlab you get your remote link by clicking on <code>Clone</code> on the main page of your repository.</li>
+<li>Choose the link under <em>Clone with SSH</em>.</li>
+<li>Navigate to the directory where you want to download your project and use <code>git clone &lt;your-link</code>, i.e use <code>git clone git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git</code> (or <code>git clone https://gitlab.lrz.de/cppcourse/ss2022/your-username_tasks.git</code> if you’re using HTTPS).</li>
+</ul>
+<h3 id="add-the-base-task-repo-upstream-to-get-the">Add the base task repo (upstream) to get the</h3>
+<p>In order to regularly pull the new assignments and any other changes (bugfixes), you must add the original <a href="$%7Bcfg.url_term_task_repo%7D">base repo</a> as <code>upstream</code> remote.</p>
+<p>To do this, navigate to your cloned project’s directory and use the following commands from the console:</p>
+<p>First check the original setup with:</p>
+<pre class="console"><code>$ git remote -v</code></pre>
+<p>The output should be:</p>
+<pre class="console"><code>&gt; origin  git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git (fetch)
+&gt; origin  git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git (push)</code></pre>
+<p>which tells us, that remote with the name origin (your Gitlab repo) points to your local repo. To add the <a href="$%7Bcfg.url_term_task_repo%7D">base repo</a> use:</p>
+<pre class="console"><code>$ git remote add upstream git@gitlab.lrz.de:cppcourse/ss2022/tasks.git</code></pre>
+<p>This command adds a the base repo as <code>upstream</code>. Again, you can verify that it was added:</p>
+<pre class="console"><code>$ git remote -v
+&gt; origin  git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git (fetch)
+&gt; origin  git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git (push)
+&gt; upstream  git@gitlab.lrz.de:cppcourse/ss2022/tasks.git (fetch)
+&gt; upstream  git@gitlab.lrz.de:cppcourse/ss2022/tasks.git (push)</code></pre>
+<p>If there are changes / new assignments you can pull them with <code>git pull upstream</code>.</p>
+<h3 id="get-the-new-assignment">Get the new assignment</h3>
+<p>If you want to get the new assignments or other changes, go to your project directory and use:</p>
+<pre class="console"><code>$ git pull upstream master
+$ git checkout master
+$ git merge upstream/master</code></pre>
+<p>This first pulls the information from the base project, where we publish the homeworks to, and into <code>upstream/master</code> Then, it switches (<code>checkout</code>) to the <code>master</code> branch (if you know you’re on the master branch, you can omit this step). Finally, it merges the current master with <code>upstream/master</code>. For new assignments, we always use new files, so this should work without any merge conflicts.</p>
+<p>However, if both of us changed the same file, a merge conflict might happen if the changes aren’t compatible, in which case you need to resolve the conflict before you can start working.</p>
+<h3 id="build-system-cmake">Build system (CMake)</h3>
+<p>We use the <a href="https://cmake.org/">CMake</a> build system. It takes care of building/compiling everything in the right order and hooking everything up, rather than forcing us to manually manage (and possibly forget) some elements or links. Follow <a href="https://cmake.org/install/">this tutorial</a> to install CMake.</p>
+<h3 id="compiler">Compiler</h3>
+<p>As we’ll be covering modern C++ (C++20) you need a recent compiler, otherwhise your project will not compile. Possible compilers are - GCC 10 and higher - Clang 10 and higher - Visual Studio 2019 16.10.0 and higher</p>
+<p>We will be testing with GCC and Clang on Linux. It therefore could be possible that you encounter errors with other versions.</p>
+<h3 id="ide">IDE</h3>
+<p>You can use any text editor you are comfortable with (we use Emacs). We recommend <a href="https://www.jetbrains.com/community/education/#students">CLion</a> or <a href="https://code.visualstudio.com/">VSCode</a> if you don’t have any preference, yet.</p>
+
+</body>
+</html>
