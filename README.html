@@ -33,12 +33,12 @@ $ git push origin  # push the changes to your Gitlab repository</code></pre>
 <ol type="1">
 <li><a href="https://docs.gitlab.com/ee/user/ssh.html#generate-an-ssh-key-pair">Generate an SSH key pair</a></li>
 <li><a href="https://docs.gitlab.com/ee/user/ssh.html#add-an-ssh-key-to-your-gitlab-account">Add an SSH key to your GitLab account</a></li>
-<li><p>Add the new key to you SSH config In your home folder (<code>~/</code> on Mac/Linux and <code>C:\Users\You</code> on Windows) you should now see the <code>.ssh</code> (hidden) folder, containing the new SSH-Key (provided you saved the file in the default directory). If not present, create a new file named <code>config</code> (without any suffix) and add the following:</p>
-<pre><code>Host gitlab.lrz.de
- Preferredauthentications publickey
- IdentityFile ~/.ssh/#your-private-key-file#</code></pre>
-<p>This tells the SSH-Agent to use this private key for the gitlab.lrz.de server.</p></li>
+<li>Add the new key to you SSH config In your home folder (<code>~/</code> on Mac/Linux and <code>C:\Users\You</code> on Windows) you should now see the <code>.ssh</code> (hidden) folder, containing the new SSH-Key (provided you saved the file in the default directory). If not present, create a new file named <code>config</code> (without any suffix) and add the following:</li>
 </ol>
+<pre><code>Host gitlab.lrz.de
+  Preferredauthentications publickey
+  IdentityFile ~/.ssh/#your-private-key-file#</code></pre>
+<p>This tells the SSH-Agent to use this private key for the gitlab.lrz.de server.</p>
 <p>&lt;%text&gt; ### Git &lt;/%text&gt; You’ll need git in order to interact with your repository. <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">This tutorial</a>, will show you the installation process for most operating systems.</p>
 <p>&lt;%text&gt; ### Downloading your Repository (Clone) - On Gitlab you get your remote link by clicking on <code>Clone</code> on the main page of your repository. - Choose the link under <em>Clone with SSH</em>. - Navigate to the directory where you want to download your project and use <code>git clone &lt;your-link</code>, i.e use <code>git clone git@gitlab.lrz.de:cppcourse/ss2022/your-username_tasks.git</code> (or <code>git clone https://gitlab.lrz.de/cppcourse/ss2022/your-username_tasks.git</code> if you’re using HTTPS).</p>
 <p>&lt;%text&gt; ### Add the base task repo (upstream) to get the &lt;/%text&gt;</p>

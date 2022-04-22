@@ -46,11 +46,11 @@ Instead of always typing your username and password when communicating with Gitl
 3. Add the new key to you SSH config
     In your home folder (`~/` on Mac/Linux and `C:\Users\You` on Windows) you should now see the `.ssh` (hidden) folder, containing the new SSH-Key (provided you saved the file in the default directory). If not present, create a new file named `config` (without any suffix) and add the following:
 
-    ```
+```
 Host gitlab.lrz.de
   Preferredauthentications publickey
   IdentityFile ~/.ssh/#your-private-key-file#
-   ```
+```
 
    This tells the SSH-Agent to use this private key for the gitlab.lrz.de server.
 
