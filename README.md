@@ -129,14 +129,13 @@ Follow [this tutorial](https://cmake.org/install/) to install CMake.
 
 ## Compiler
 
-
 As we'll be covering modern C++ (C++20) you need a recent compiler, otherwhise your project will not compile.
-Possible compilers are
-- GCC 10 and higher (instructions for [Windows](https://nuwen.net/mingw.html))
-- Clang 10 and higher
-- Visual Studio 2019 16.10.0 and higher
+Recommended compilers are
+- GCC 11 and higher (instructions for [Windows](https://nuwen.net/mingw.html))
+- Clang 13 and higher
+- (Visual Studio 2022 17.0 and higher)
 
-We will be testing with GCC and Clang on Linux.
+We will be testing with GCC 11 and Clang 13 on Linux.
 It therefore could be possible that you encounter errors with other versions.
 
 ## IDE
