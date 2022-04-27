@@ -28,7 +28,7 @@ build-gcc:
   image: cpp/compiler:20
   script:
     - mkdir -p build
-    - g++ -o build/main -std=c++20 HW00/main.cpp
+    - g++ -o build/main -std=c++20 hw00/main.cpp
     #- cd build
     #- cmake ..
     #- make $CURRENT_TEST -j4
@@ -40,7 +40,7 @@ build-clang:
   image: cpp/compiler:20
   script:
     - mkdir -p build
-    - clang++ -stdlib=libc++ -Wl,-lc++abi -o build/main -std=c++20 HW00/main.cpp
+    - clang++ -stdlib=libc++ -Wl,-lc++abi -o build/main -std=c++20 hw00/main.cpp
     #- cd build
     #- cmake .. -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_EXE_LINKER_FLAGS="-lc++abi"
     #- make $CURRENT_TEST -j4
