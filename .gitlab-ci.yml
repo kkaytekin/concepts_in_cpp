@@ -1,14 +1,23 @@
 variables:
-    CURRENT_LIB: ""
-    CURRENT_TEST: ""
-    TEST_HASH_EXPECTED: ""
+    CURRENT_LIB: "TODO"
+    CURRENT_TEST: "TODO"
+    TEST_HASH_EXPECTED: "f3aa26c7c3d090460f75fb39673a9fddbfa180bfa1eb25695a8d3d6d1e3520db"
 
+# pre-verify testing system hash
 before_script:
-    - echo "hash validation here"
+  - tester="python3 -c 'import base64; exec(base64.b64decode(\"CmltcG9ydCBzeXMsIGhhc2hsaWIsIHBhdGhsaWIKZGVmIGhhc2hfZGlyZWN0b3J5KGJhc2VfcGF0aCwgZmlsdGVyPU5vbmUpOgogICAgIiIiCiAgICBoYXNoIGRpcmVjdG9yeSBjb250ZW50cyB3aXRoIHNoYTI1Ni4KICAgICIiIgogICAgaWYgbm90IGJhc2VfcGF0aC5pc19kaXIoKToKICAgICAgICByYWlzZSBFeGNlcHRpb24oIm5vdCBhIGRpciIpCgogICAgaGFzaGVyID0gaGFzaGxpYi5zaGEyNTYoKQogICAgZm9yIHBhdGggaW4gc29ydGVkKGJhc2VfcGF0aC5yZ2xvYigiKiIpKToKICAgICAgICBpZiBwYXRoLmlzX2ZpbGUoKToKICAgICAgICAgICAgaWYgZmlsdGVyIGFuZCBmaWx0ZXIocGF0aCk6CiAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICBzdWJwYXRoID0gc3RyKHBhdGgucmVsYXRpdmVfdG8oYmFzZV9wYXRoKSkKICAgICAgICAgICAgaGFzaGVyLnVwZGF0ZShzdWJwYXRoLmVuY29kZSgpKQogICAgICAgICAgICB3aXRoIHBhdGgub3BlbigicmIiKSBhcyBoZGw6CiAgICAgICAgICAgICAgICBoYXNoZXIudXBkYXRlKGhkbC5yZWFkKCkpCgogICAgcmV0dXJuIGhhc2hlci5oZXhkaWdlc3QoKQoKcHJpbnQoaGFzaF9kaXJlY3RvcnkocGF0aGxpYi5QYXRoKHN5cy5hcmd2WzFdKSkpCiAgICA=\").decode())'"
+  - TEST_HASH=$(eval "$tester" testing/)
+
+  - echo $TEST_HASH
+  - echo $TEST_HASH_EXPECTED
+  - if [[ "$TEST_HASH" != "$TEST_HASH_EXPECTED" ]]; then echo "Test folder contents are not as expected!"; exit 1; fi
+
 
 stages:
 - compile
+- test
 
+# yaml template lol
 .job_template: &build_job_artifact
   stage: compile
   cache:
@@ -23,15 +32,12 @@ stages:
     expire_in: 30 mins
 
 
+# compile jobs
 build-gcc:
   <<: *build_job_artifact
   image: cpp/compiler:20
   script:
-    - mkdir -p build
-    - g++ -o build/main -std=c++20 hw00/main.cpp
-    #- cd build
-    #- cmake ..
-    #- make $CURRENT_TEST -j4
+    - CXX=g++ ./testing/hw01/compile
   tags:
     - linux
 
@@ -39,10 +45,34 @@ build-clang:
   <<: *build_job_artifact
   image: cpp/compiler:20
   script:
-    - mkdir -p build
-    - clang++ -stdlib=libc++ -Wl,-lc++abi -o build/main -std=c++20 hw00/main.cpp
-    #- cd build
-    #- cmake .. -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_EXE_LINKER_FLAGS="-lc++abi"
-    #- make $CURRENT_TEST -j4
+    - CXX=clang++ CXXFLAGS="-stdlib=libc++ -Wl,-lc++abi" ./testing/hw01/compile
+  tags:
+    - linux
+
+
+# test jobs
+test-gcc:
+  stage: test
+  image: cpp/compiler:20
+  script:
+    - ./testing/hw01/test
+  dependencies:
+    - build-gcc
+  artifacts:
+    name: "$CI_JOB_NAME-$CI_COMMIT_REF_NAME"
+    when: always
+    paths:
+      - build/ctest.log
+    expire_in: 1 year
+  tags:
+    - linux
+
+test-clang:
+  stage: test
+  image: cpp/compiler:20
+  script:
+    - ./testing/hw01/test
+  dependencies:
+    - build-clang
   tags:
     - linux
