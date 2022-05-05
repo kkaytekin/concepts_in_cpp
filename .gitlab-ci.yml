@@ -1,16 +1,16 @@
 variables:
-    CURRENT_LIB: "TODO"
-    CURRENT_TEST: "TODO"
-    TEST_HASH_EXPECTED: "f3aa26c7c3d090460f75fb39673a9fddbfa180bfa1eb25695a8d3d6d1e3520db"
+    CURRENT_HW: "hw02"
+    CURRENT_TEST: "testhw02"
+    TEST_HASH_EXPECTED: "3b0aa1b76b5af9bf53b7642120fa5c55f3363de33ff02e89eeee42e161815000"
 
 # pre-verify testing system hash
 before_script:
-  - tester="python3 -c 'import base64; exec(base64.b64decode(\"CmltcG9ydCBzeXMsIGhhc2hsaWIsIHBhdGhsaWIKZGVmIGhhc2hfZGlyZWN0b3J5KGJhc2VfcGF0aCwgZmlsdGVyPU5vbmUpOgogICAgIiIiCiAgICBoYXNoIGRpcmVjdG9yeSBjb250ZW50cyB3aXRoIHNoYTI1Ni4KICAgICIiIgogICAgaWYgbm90IGJhc2VfcGF0aC5pc19kaXIoKToKICAgICAgICByYWlzZSBFeGNlcHRpb24oIm5vdCBhIGRpciIpCgogICAgaGFzaGVyID0gaGFzaGxpYi5zaGEyNTYoKQogICAgZm9yIHBhdGggaW4gc29ydGVkKGJhc2VfcGF0aC5yZ2xvYigiKiIpKToKICAgICAgICBpZiBwYXRoLmlzX2ZpbGUoKToKICAgICAgICAgICAgaWYgZmlsdGVyIGFuZCBmaWx0ZXIocGF0aCk6CiAgICAgICAgICAgICAgICBjb250aW51ZQogICAgICAgICAgICBzdWJwYXRoID0gc3RyKHBhdGgucmVsYXRpdmVfdG8oYmFzZV9wYXRoKSkKICAgICAgICAgICAgaGFzaGVyLnVwZGF0ZShzdWJwYXRoLmVuY29kZSgpKQogICAgICAgICAgICB3aXRoIHBhdGgub3BlbigicmIiKSBhcyBoZGw6CiAgICAgICAgICAgICAgICBoYXNoZXIudXBkYXRlKGhkbC5yZWFkKCkpCgogICAgcmV0dXJuIGhhc2hlci5oZXhkaWdlc3QoKQoKcHJpbnQoaGFzaF9kaXJlY3RvcnkocGF0aGxpYi5QYXRoKHN5cy5hcmd2WzFdKSkpCiAgICA=\").decode())'"
-  - TEST_HASH=$(eval "$tester" testing/)
+  - tester="python3 -c 'import base64, lzma; exec(lzma.decompress(base64.b64decode(\"/Td6WFoAAATm1rRGAgAhARYAAAB0L+Wj4ANoAZpdAAUbSxPKKmVtGhRPQtvDy44ev3OIPm3q08xy0m1+Vzts/YuDUpfq1D15P9KyY1ltIZb4nnvSxakQAJy1iSkSn0CSwxAcZ9BdnVKenS6RtGMtxaPfI4+FwrOfdwPZUVPktXnaYcFn4bVa3hvnOJxmO4w8WujSjqrSI4IyI2j1d6dwwpL4qBlgvcn6q8B6KU/KbmlIgAAdpN7LNlBnEqIdk40AntOo9T78J0EcddwODxBjtMVoV2ClCj6u5kgg7/i9CaBoQz3deUx205aCsVgBvu8nQV/TZYnVSzIih59lrhlBmnijJ0wqfxzukLTWsFkOZWH1nxKlAlQsuRo37dzsJ6YAlfFvHwZEz/0p4jWSqATRPxq2af1QWvY7uebFtE2bJQUbvqK1u7f75ItWPMZI2ySib7iRN/X8eyBTrqLhWASCGbJVosnNs0aTSSXA3axFRqTSLg8tS2A/a/HnRZGTQvOiWXw3m7FMMxPWuAkOZSdhCz02leqZUghcY11NFRmgG7ji0rVPQsCqOUwJI9lnkR6evCqsPMx83RaSAAAAH2FED2Xm7QEAAbYD6QYAAGUsnOexxGf7AgAAAAAEWVo=\")).decode())'"
+  - TEST_HASH=$(eval "$tester" . testing/ CMakeLists.txt)
 
   - echo $TEST_HASH
   - echo $TEST_HASH_EXPECTED
-  - if [[ "$TEST_HASH" != "$TEST_HASH_EXPECTED" ]]; then echo "Test folder contents are not as expected!"; exit 1; fi
+  - if [[ "$TEST_HASH" == "$TEST_HASH_EXPECTED" ]]; then echo "/CMakeLists.txt and testing/ folder are good!"; else echo "/CMakeLists or testing/ folder contents are not as expected!"; exit 1; fi
 
 
 stages:
@@ -37,7 +37,10 @@ build-gcc:
   <<: *build_job_artifact
   image: cpp/compiler:20
   script:
-    - CXX=g++ ./testing/hw01/compile
+    - mkdir -p build
+    - cd build
+    - cmake ..
+    - make $CURRENT_HW ${CURRENT_TEST} -j4 VERBOSE=1
   tags:
     - linux
 
@@ -45,7 +48,10 @@ build-clang:
   <<: *build_job_artifact
   image: cpp/compiler:20
   script:
-    - CXX=clang++ CXXFLAGS="-stdlib=libc++ -Wl,-lc++abi" ./testing/hw01/compile
+    - mkdir -p build
+    - cd build
+    - cmake .. -DCMAKE_CXX_COMPILER="clang++" -DCMAKE_CXX_FLAGS="-stdlib=libc++" -DCMAKE_EXE_LINKER_FLAGS="-lc++abi"
+    - make $CURRENT_HW ${CURRENT_TEST} -j4 VERBOSE=1
   tags:
     - linux
 
@@ -55,7 +61,8 @@ test-gcc:
   stage: test
   image: cpp/compiler:20
   script:
-    - ./testing/hw01/test
+    - cd build
+    - ctest -R $CURRENT_HW -V -O ctest.log
   dependencies:
     - build-gcc
   artifacts:
@@ -71,7 +78,8 @@ test-clang:
   stage: test
   image: cpp/compiler:20
   script:
-    - ./testing/hw01/test
+    - cd build
+    - ctest -R $CURRENT_HW -V -O ctest.log
   dependencies:
     - build-clang
   tags:
