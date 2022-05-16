@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include <iostream>
 
 
 /**
@@ -38,8 +39,8 @@ struct storage {
 /**
  * Given a contact storage, create a new contact entry by name and number.
  */
-bool add(storage& contacts, std::string_view name, number_t number);
-
+bool add(storage& contacts, std::string name, number_t number);
+//bool add(storage& contacts, std::string name, number_t number);
 
 /**
  * Given a contact storage, how many contacts are currently stored?
@@ -50,8 +51,8 @@ size_t size(const storage& contacts);
 /**
  * Fetch a contact number from storage given a name.
  */
-number_t get_number_by_name(storage& contacts, std::string_view name);
-
+number_t get_number_by_name(storage& contacts, const std::string name);
+//number_t get_number_by_name(storage& contacts, const std::string name);
 
 /**
  * Return a string representing the contact list.
@@ -62,8 +63,8 @@ std::string to_string(const storage& contacts);
 /**
  * Remove a contact by name from the contact list.
  */
-bool remove(storage& contacts, std::string_view name);
-
+bool remove(storage& contacts, std::string name);
+//bool remove(storage& contacts, std::string name);
 
 /**
  * Sort the contact list in-place by name.
