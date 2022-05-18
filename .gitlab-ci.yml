@@ -1,7 +1,7 @@
 variables:
-    CURRENT_HW: "hw03"
-    CURRENT_TEST: "testhw03"
-    TEST_HASH_EXPECTED: "a2714f32c6fbb71b72703f461936801219fba2af38debe56e3c0ead8af03280d"
+    CURRENT_HW: "hw04"
+    CURRENT_TEST: "testhw04"
+    TEST_HASH_EXPECTED: "e732935beda931301aefcfdf2cb07aa2d7a26f2b5ff734671bad9805673b1fbd"
 
 # pre-verify testing system hash
 before_script:
@@ -11,6 +11,7 @@ before_script:
   - echo $TEST_HASH
   - echo $TEST_HASH_EXPECTED
   - if [[ "$TEST_HASH" == "$TEST_HASH_EXPECTED" ]]; then echo "/CMakeLists.txt and testing/ folder are good!"; else echo -n "/CMakeLists.txt or testing/ folder contents are not as expected! to fix this, git restore -s upstream/master CMakeLists.txt testing/ .gitlab-ci.yml"; exit 1; fi
+  - export GCC_COLORS=yes
 
 
 stages:
