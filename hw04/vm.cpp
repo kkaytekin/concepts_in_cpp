@@ -159,6 +159,11 @@ vm_state create_vm(bool debug) {
 
     register_instruction(state,"WRITE",[](vm_state& vmstate, const item_t) -> bool {
         //todo: implement
+        if (vmstate.stack.empty())
+        {
+            throw vm_stackfail("Error on call to WRITE: Stack is empty! Nothing to duplicate. \n");
+            return false;
+        }
         auto tos = vmstate.stack.top();
         vmstate.outText.append(std::to_string(tos) );
         return true;
@@ -166,6 +171,11 @@ vm_state create_vm(bool debug) {
 
     register_instruction(state,"WRITE_CHAR",[](vm_state& vmstate, const item_t ) -> bool {
         //todo: implement
+        if (vmstate.stack.empty())
+        {
+            throw vm_stackfail("Error on call to WRITE_CHAR: Stack is empty! Nothing to duplicate. \n");
+            return false;
+        }
         auto tos = vmstate.stack.top();
         char a = char(tos);
         std::string s1{};
