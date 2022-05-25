@@ -3,6 +3,7 @@ variables:
     CURRENT_TEST: "testhw04"
     TEST_HASH_EXPECTED: "e732935beda931301aefcfdf2cb07aa2d7a26f2b5ff734671bad9805673b1fbd"
 
+
 # pre-verify testing system hash
 before_script:
   - tester="python3 -c 'import base64, lzma; exec(lzma.decompress(base64.b64decode(\"/Td6WFoAAATm1rRGAgAhARYAAAB0L+Wj4ANoAZpdAAUbSxPKKmVtGhRPQtvDy44ev3OIPm3q08xy0m1+Vzts/YuDUpfq1D15P9KyY1ltIZb4nnvSxakQAJy1iSkSn0CSwxAcZ9BdnVKenS6RtGMtxaPfI4+FwrOfdwPZUVPktXnaYcFn4bVa3hvnOJxmO4w8WujSjqrSI4IyI2j1d6dwwpL4qBlgvcn6q8B6KU/KbmlIgAAdpN7LNlBnEqIdk40AntOo9T78J0EcddwODxBjtMVoV2ClCj6u5kgg7/i9CaBoQz3deUx205aCsVgBvu8nQV/TZYnVSzIih59lrhlBmnijJ0wqfxzukLTWsFkOZWH1nxKlAlQsuRo37dzsJ6YAlfFvHwZEz/0p4jWSqATRPxq2af1QWvY7uebFtE2bJQUbvqK1u7f75ItWPMZI2ySib7iRN/X8eyBTrqLhWASCGbJVosnNs0aTSSXA3axFRqTSLg8tS2A/a/HnRZGTQvOiWXw3m7FMMxPWuAkOZSdhCz02leqZUghcY11NFRmgG7ji0rVPQsCqOUwJI9lnkR6evCqsPMx83RaSAAAAH2FED2Xm7QEAAbYD6QYAAGUsnOexxGf7AgAAAAAEWVo=\")).decode())'"
@@ -11,6 +12,7 @@ before_script:
   - echo $TEST_HASH
   - echo $TEST_HASH_EXPECTED
   - if [[ "$TEST_HASH" == "$TEST_HASH_EXPECTED" ]]; then echo "/CMakeLists.txt and testing/ folder are good!"; else echo -n "/CMakeLists.txt or testing/ folder contents are not as expected! to fix this, git restore -s upstream/master CMakeLists.txt testing/ .gitlab-ci.yml"; exit 1; fi
+
   - export GCC_COLORS=yes
 
 
