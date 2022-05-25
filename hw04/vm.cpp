@@ -15,12 +15,169 @@ vm_state create_vm(bool debug) {
     // enable vm debugging
     state.debug = debug;
 
-
-    register_instruction(state, "PRINT", [](vm_state& vmstate, const item_t /*arg*/) {
-        std::cout << vmstate.stack.top() << std::endl;
+    // todo: i might need to fix the argument below
+    register_instruction(state, "PRINT", [](const vm_state& vmstate, const item_t /*arg*/) {
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to PRINT: Stack is empty!\n");
+            return false;
+        }
+        std::cout << vmstate.stack.top() << '\n' << std::endl;
         return true;
     });
 
+    register_instruction(state,"LOAD_CONST",[](vm_state& vmstate, const item_t number) -> bool {
+        vmstate.stack.push(number);
+        return true;
+      //todo: anything else?
+    });
+
+    register_instruction(state,"EXIT",[](vm_state& vmstate, const item_t ) -> bool {
+        //todo: implement
+        std::cout << "Exitting... \n";
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to EXIT: Stack is empty!\n");
+            return false;
+        }
+        std::cout << vmstate.stack.top();
+        return true;
+    });
+
+    register_instruction(state,"POP",[](vm_state& vmstate, const item_t number) -> bool {
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to POP: Stack is empty!\n");
+            return false;
+        }
+        vmstate.stack.pop();
+        return true;
+    });
+
+    register_instruction(state,"ADD",[](vm_state& vmstate, const item_t number) -> bool {
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to ADD: Stack is empty! Nothing to add.\n");
+            return false;
+        }
+        auto tos = vmstate.stack.top();
+        vmstate.stack.pop();
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to ADD: Stack is empty! Missing second argument.\n");
+            return false;
+        }
+        auto tos1 = vmstate.stack.top();
+        vmstate.stack.pop();
+        vmstate.stack.push(tos1+tos);
+        return true;
+    });
+
+    register_instruction(state,"DIV",[](vm_state& vmstate, const item_t number) -> bool {
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to DIV: Stack is empty! Nothing to divide. \n");
+            return false;
+        }
+        auto tos = vmstate.stack.top();
+        vmstate.stack.pop();
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to DIV: Stack is empty!. Missing second argument. \n");
+            return false;
+        }
+        auto tos1 = vmstate.stack.top();
+        vmstate.stack.pop();
+        if (tos == 0l ) throw div_by_zero("Division by zero!\n");
+        vmstate.stack.push(tos1/tos);
+        return true;
+    });
+
+    register_instruction(state,"EQ",[](vm_state& vmstate, const item_t number) -> bool {
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to EQ: Stack is empty! Nothing to compare. \n");
+            return false;
+        }
+        auto tos = vmstate.stack.top();
+        vmstate.stack.pop();
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to EQ: Stack is empty! Missing second argument. \n");
+            return false;
+        }
+        auto tos1 = vmstate.stack.top();
+        vmstate.stack.pop();
+        (tos== tos1) ? vmstate.stack.push(1l) : vmstate.stack.push(0l);
+        return true;
+    });
+
+    register_instruction(state,"NEQ",[](vm_state& vmstate, const item_t number) -> bool {
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to NEQ: Stack is empty! Nothing to compare. \n");
+            return false;
+        }
+        auto tos = vmstate.stack.top();
+        vmstate.stack.pop();
+        if (vmstate.stack.empty()) {
+            throw vm_stackfail("Error on call to NEQ: Stack is empty! Missing second argument. \n");
+            return false;
+        }
+        auto tos1 = vmstate.stack.top();
+        vmstate.stack.pop();
+        (tos != tos1) ? vmstate.stack.push(1l) : vmstate.stack.push(0l);
+        return true;
+    });
+
+    register_instruction(state,"DUP",[](vm_state& vmstate, const item_t number) -> bool {
+        //todo: implement
+        if (vmstate.stack.empty())
+        {
+            throw vm_stackfail("Error on call to DUP: Stack is empty! Nothing to duplicate. \n");
+            return false;
+        }
+        auto tos = vmstate.stack.top();
+        vmstate.stack.push(tos);
+        return true;
+    });
+
+    register_instruction(state,"JMP",[](vm_state& vmstate, const item_t addr) -> bool {
+        //todo: error handling
+        if ( static_cast<size_t>(addr) > vmstate.pc_bound)
+            throw vm_segfault("Error on call to JMP: Given address is out of bound! \n");
+        vmstate.pc = static_cast<size_t>(addr);
+        return true;
+    });
+
+    register_instruction(state,"JUMPZ",[](vm_state& vmstate, const item_t addr) -> bool {
+        //todo: error handling
+        if (vmstate.stack.empty())
+            throw vm_stackfail("Error on call to JUMPZ: Stack is empty! Nowhere to jump. \n");
+        auto tos = vmstate.stack.top();
+        if (tos == 0)
+        {
+            vmstate.stack.pop();
+            if ( static_cast<size_t>(addr) > vmstate.pc_bound)
+                throw vm_segfault("Error on call to JMPZ: Given address is out of bound! \n");
+            vmstate.pc = static_cast<size_t>(addr);
+            return true;
+        }
+        std::cout << "TOS is not zero!\n";
+        return false;
+    });
+
+    register_instruction(state,"WRITE",[](vm_state& vmstate, const item_t) -> bool {
+        //todo: implement
+        auto tos = vmstate.stack.top();
+        vmstate.outText.append(std::to_string(tos) );
+        return true;
+    });
+
+    register_instruction(state,"WRITE_CHAR",[](vm_state& vmstate, const item_t ) -> bool {
+        //todo: implement
+        auto tos = vmstate.stack.top();
+        char a = char(tos);
+        std::string s1{};
+        s1 =  char(tos);
+        vmstate.outText.append(s1);
+//        auto str = std::to_string(tos);
+//        for (const char& c : str) {
+//            vmstate.outText.append( std::to_string((int)c ));
+//        }
+        //vmstate.outText.append("\n");
+        return true;
+    });
 
     // TODO create instructions
 
@@ -33,9 +190,14 @@ void register_instruction(vm_state& state, std::string_view name,
     size_t op_id = state.next_op_id;
 
     // TODO make instruction available to vm
+    // todo: Error handling?
+    state.instruction_ids[std::string(name)] = op_id;
+    state.instruction_names[op_id] = name;
+    state.instruction_actions[op_id] = action;
+    ++state.next_op_id;
 }
 
-
+// save operations into an std::vector as pairs of (op_id,argument)
 code_t assemble(const vm_state& state, std::string_view input_program) {
     code_t code;
 
@@ -88,6 +250,9 @@ std::tuple<item_t, std::string> run(vm_state& vm, const code_t& code) {
         std::cout << "=== end of disassembly" << std::endl << std::endl;
     }
 
+    // Set the maximum pc bound for error checking.
+    vm.pc_bound = code.size() - 1;
+
     // execution loop for the machine
     while (true) {
 
@@ -101,10 +266,15 @@ std::tuple<item_t, std::string> run(vm_state& vm, const code_t& code) {
         // by the instruction when it executes!
         vm.pc += 1;
 
-        // TODO execute instruction and stop if the action returns false.
+        // TODO execute instruction and stop if the action returns false
+        auto action {vm.instruction_actions[op_id]};
+        if (not action(vm,arg))
+            return {1,"An action could not be executed!\n"};
+        if (vm.pc == code.size())
+            break;
     }
 
-    return {0, ""}; // TODO: return tuple(exit value, output text)
+    return {vm.stack.top(), vm.outText }; // TODO: return tuple(exit value, output text)
 }
 
 

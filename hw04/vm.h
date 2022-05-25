@@ -87,6 +87,14 @@ struct vm_state {
     bool debug = false;
 
     // if you need to store more vm state, add it here!
+    /**
+     * store text for output.
+     */
+    std::string outText{};
+    /**
+     * store maximum bound for address. Needed for error handling of JUMP and JUMPZ commands.
+     */
+    size_t pc_bound = 0;
 };
 
 
