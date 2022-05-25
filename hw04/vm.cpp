@@ -140,10 +140,10 @@ vm_state create_vm(bool debug) {
         return true;
     });
 
-    register_instruction(state,"JUMPZ",[](vm_state& vmstate, const item_t addr) -> bool {
+    register_instruction(state,"JMPZ",[](vm_state& vmstate, const item_t addr) -> bool {
         //todo: error handling
         if (vmstate.stack.empty())
-            throw vm_stackfail("Error on call to JUMPZ: Stack is empty! Nowhere to jump. \n");
+            throw vm_stackfail("Error on call to JMPZ: Stack is empty! Nowhere to jump. \n");
         auto tos = vmstate.stack.top();
         if (tos == 0)
         {
@@ -154,7 +154,7 @@ vm_state create_vm(bool debug) {
             return true;
         }
         std::cout << "TOS is not zero!\n";
-        return false;
+        return true;
     });
 
     register_instruction(state,"WRITE",[](vm_state& vmstate, const item_t) -> bool {
